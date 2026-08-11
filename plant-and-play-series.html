@@ -1,0 +1,908 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Plant & Play — A Sally the Salamander Series</title>
+<link href="https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&family=Playfair+Display:ital,wght@1,700&display=swap" rel="stylesheet"/>
+<style>
+  :root {
+    --soil: #3d2b1f;
+    --bark: #6b3f2a;
+    --moss: #4a7c59;
+    --leaf: #6abf69;
+    --sprout: #a8d672;
+    --sun: #f9c74f;
+    --sky: #e8f5e9;
+    --petal: #ff8fab;
+    --petal2: #ffb347;
+    --water: #64b5f6;
+    --cream: #fffdf4;
+    --sally: #e76f00;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    font-family: 'Nunito', sans-serif;
+    background: var(--cream);
+    overflow-x: hidden;
+  }
+
+  /* ── HERO ── */
+  .hero {
+    position: relative;
+    min-height: 100vh;
+    background: linear-gradient(180deg, #b8e4c9 0%, #d4f0b0 40%, #8bc34a 75%, #4a7c59 100%);
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
+    padding: 60px 20px 80px;
+    overflow: hidden;
+  }
+
+  /* animated sun */
+  .sun {
+    position: absolute;
+    top: -40px; right: -40px;
+    width: 200px; height: 200px;
+    background: radial-gradient(circle, #ffe066 40%, #f9c74f 70%, transparent 100%);
+    border-radius: 50%;
+    animation: sunPulse 4s ease-in-out infinite;
+    z-index: 0;
+  }
+  @keyframes sunPulse {
+    0%,100% { transform: scale(1); opacity:.9; }
+    50% { transform: scale(1.08); opacity:1; }
+  }
+
+  /* floating leaves */
+  .leaf { position: absolute; font-size: 2rem; animation: floatLeaf 6s ease-in-out infinite; opacity:.7; z-index:0; }
+  .leaf:nth-child(2) { top:12%; left:8%; animation-delay:0s; }
+  .leaf:nth-child(3) { top:25%; left:88%; animation-delay:1.5s; font-size:1.4rem; }
+  .leaf:nth-child(4) { top:60%; left:5%; animation-delay:3s; font-size:1.2rem; }
+  .leaf:nth-child(5) { top:70%; left:92%; animation-delay:2s; }
+  .leaf:nth-child(6) { top:45%; left:3%; animation-delay:4s; font-size:1.8rem; }
+  @keyframes floatLeaf {
+    0%,100% { transform: translateY(0) rotate(0deg); }
+    50% { transform: translateY(-18px) rotate(12deg); }
+  }
+
+  .hero-badge {
+    position: relative; z-index:1;
+    background: var(--sally);
+    color: white;
+    font-family: 'Fredoka One', cursive;
+    font-size: 0.95rem;
+    padding: 6px 20px;
+    border-radius: 50px;
+    letter-spacing: 1px;
+    margin-bottom: 18px;
+    box-shadow: 0 4px 12px rgba(231,111,0,.35);
+    animation: fadeDown .8s ease both;
+  }
+
+  .hero h1 {
+    position: relative; z-index:1;
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(3.2rem, 9vw, 7rem);
+    line-height: 1;
+    color: var(--soil);
+    text-shadow: 4px 4px 0 rgba(255,255,255,.4);
+    animation: fadeDown .9s .1s ease both;
+  }
+  .hero h1 span { color: var(--moss); }
+
+  .hero-sub {
+    position: relative; z-index:1;
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: clamp(1rem, 2.5vw, 1.35rem);
+    color: var(--soil);
+    margin: 14px 0 30px;
+    opacity: .85;
+    animation: fadeDown 1s .2s ease both;
+  }
+
+  .hero-desc {
+    position: relative; z-index:1;
+    max-width: 560px;
+    font-size: 1.05rem;
+    color: #3d3d2b;
+    line-height: 1.7;
+    animation: fadeDown 1s .3s ease both;
+  }
+
+  /* Sally hero SVG character */
+  .sally-hero {
+    position: relative; z-index:1;
+    margin: 30px 0 0;
+    animation: sallySway 3s ease-in-out infinite;
+  }
+  @keyframes sallySway {
+    0%,100% { transform: rotate(-3deg) translateY(0); }
+    50% { transform: rotate(3deg) translateY(-10px); }
+  }
+
+  /* ground strip with flowers */
+  .ground-strip {
+    position: absolute; bottom: 0; left:0; right:0;
+    height: 90px;
+    background: var(--soil);
+    border-top: 6px solid var(--bark);
+    z-index: 2;
+    overflow: hidden;
+  }
+  .ground-strip::before {
+    content:'';
+    position:absolute; top:0; left:0; right:0; height:20px;
+    background: repeating-linear-gradient(90deg, var(--leaf) 0, var(--leaf) 18px, var(--sprout) 18px, var(--sprout) 36px);
+    opacity:.6;
+  }
+  .flower-row { position:absolute; bottom:14px; display:flex; gap:28px; padding:0 30px; }
+  .mini-flower { font-size:1.6rem; animation: flowerBob 2s ease-in-out infinite; }
+  .mini-flower:nth-child(even) { animation-delay:.5s; }
+  @keyframes flowerBob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-6px)} }
+
+  @keyframes fadeDown {
+    from { opacity:0; transform: translateY(-20px); }
+    to   { opacity:1; transform: translateY(0); }
+  }
+
+  /* ── SECTION LABEL ── */
+  .section-label {
+    text-align: center;
+    padding: 70px 20px 10px;
+  }
+  .section-label h2 {
+    font-family: 'Fredoka One', cursive;
+    font-size: clamp(2rem, 5vw, 3rem);
+    color: var(--moss);
+  }
+  .section-label p {
+    color: #666;
+    font-size: 1.05rem;
+    margin-top: 8px;
+    max-width: 560px;
+    margin-inline: auto;
+  }
+  .divider {
+    width: 80px; height: 5px;
+    background: linear-gradient(90deg, var(--sun), var(--leaf));
+    border-radius: 10px;
+    margin: 14px auto 0;
+  }
+
+  /* ── SERIES BIBLE ── */
+  .series-info {
+    background: linear-gradient(135deg, #e8f5e9, #f9fbe7);
+    padding: 50px 20px;
+    text-align: center;
+  }
+  .series-pillars {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 16px;
+    max-width: 800px;
+    margin: 30px auto 0;
+  }
+  .pillar {
+    background: white;
+    border: 2px solid var(--leaf);
+    border-radius: 16px;
+    padding: 16px 22px;
+    font-size: .95rem;
+    font-weight: 700;
+    color: var(--moss);
+    box-shadow: 0 4px 12px rgba(74,124,89,.12);
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: transform .2s;
+  }
+  .pillar:hover { transform: translateY(-4px); }
+
+  /* ── BOOK CARDS ── */
+  .books-section { padding: 20px 20px 80px; }
+  .books-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 32px;
+    max-width: 1100px;
+    margin: 40px auto 0;
+  }
+
+  .book-card {
+    background: white;
+    border-radius: 24px;
+    overflow: hidden;
+    box-shadow: 0 8px 32px rgba(0,0,0,.09);
+    transition: transform .3s, box-shadow .3s;
+    position: relative;
+  }
+  .book-card:hover {
+    transform: translateY(-8px);
+    box-shadow: 0 16px 48px rgba(0,0,0,.14);
+  }
+
+  .book-cover {
+    height: 200px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    position: relative;
+    overflow: hidden;
+  }
+  .book-cover .cover-emoji { font-size: 4.5rem; position: relative; z-index:1; animation: coverBob 3s ease-in-out infinite; }
+  @keyframes coverBob { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
+  .book-cover .cover-friend { font-size: 2rem; position:absolute; bottom:16px; right:20px; z-index:1; }
+  .book-cover .cover-num {
+    position: absolute; top:14px; left:14px;
+    background: rgba(255,255,255,.85);
+    font-family: 'Fredoka One', cursive;
+    font-size: 1rem;
+    color: var(--soil);
+    padding: 4px 12px;
+    border-radius: 50px;
+    z-index:1;
+  }
+
+  /* book 1 */
+  .b1 .book-cover { background: linear-gradient(135deg, #c8e6c9, #a5d6a7); }
+  /* book 2 */
+  .b2 .book-cover { background: linear-gradient(135deg, #ffe0b2, #ffcc80); }
+  /* book 3 */
+  .b3 .book-cover { background: linear-gradient(135deg, #e1f5fe, #b3e5fc); }
+  /* book 4 */
+  .b4 .book-cover { background: linear-gradient(135deg, #fce4ec, #f8bbd0); }
+  /* book 5 */
+  .b5 .book-cover { background: linear-gradient(135deg, #e8f5e9, #c8e6c9); }
+  /* book 6 */
+  .b6 .book-cover { background: linear-gradient(135deg, #fffde7, #fff9c4); }
+
+  .book-body { padding: 22px 24px 26px; }
+  .book-number {
+    font-family: 'Fredoka One', cursive;
+    font-size: .82rem;
+    letter-spacing: 1.5px;
+    color: var(--leaf);
+    text-transform: uppercase;
+    margin-bottom: 4px;
+  }
+  .book-title {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.45rem;
+    color: var(--soil);
+    line-height: 1.2;
+    margin-bottom: 6px;
+  }
+  .book-friend {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: var(--sky);
+    border-radius: 50px;
+    padding: 4px 12px;
+    font-size: .82rem;
+    font-weight: 700;
+    color: var(--moss);
+    margin-bottom: 12px;
+  }
+  .book-desc {
+    font-size: .95rem;
+    color: #555;
+    line-height: 1.6;
+    margin-bottom: 16px;
+  }
+  .book-learns {
+    background: #f9fbe7;
+    border-left: 4px solid var(--leaf);
+    border-radius: 0 12px 12px 0;
+    padding: 12px 16px;
+    margin-bottom: 16px;
+  }
+  .book-learns h4 {
+    font-size: .8rem;
+    font-weight: 800;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    color: var(--moss);
+    margin-bottom: 8px;
+  }
+  .book-learns ul { list-style: none; }
+  .book-learns ul li {
+    font-size: .88rem;
+    color: #444;
+    padding: 3px 0;
+    display: flex;
+    align-items: flex-start;
+    gap: 7px;
+  }
+  .book-learns ul li::before { content:'🌱'; font-size:.75rem; margin-top:2px; }
+
+  .activity-tag {
+    display: inline-block;
+    background: var(--sun);
+    color: var(--soil);
+    font-size: .78rem;
+    font-weight: 800;
+    padding: 5px 14px;
+    border-radius: 50px;
+  }
+
+  /* ── SALLY SECTION ── */
+  .sally-section {
+    background: linear-gradient(135deg, #fff8e1, #fffde7);
+    padding: 70px 20px;
+    text-align: center;
+    border-top: 4px dashed var(--sun);
+    border-bottom: 4px dashed var(--sun);
+  }
+  .sally-card {
+    max-width: 700px;
+    margin: 30px auto 0;
+    background: white;
+    border-radius: 28px;
+    padding: 36px 40px;
+    box-shadow: 0 8px 36px rgba(0,0,0,.08);
+    display: flex;
+    gap: 30px;
+    align-items: center;
+    text-align: left;
+  }
+  .sally-avatar {
+    width: 110px;
+    height: 110px;
+    background: linear-gradient(135deg, #e76f00, #ff9800);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 3.5rem;
+    flex-shrink: 0;
+    box-shadow: 0 6px 20px rgba(231,111,0,.3);
+    animation: sallySway 3s ease-in-out infinite;
+  }
+  .sally-text h3 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.5rem;
+    color: var(--soil);
+    margin-bottom: 8px;
+  }
+  .sally-text p {
+    font-size: .97rem;
+    color: #555;
+    line-height: 1.7;
+  }
+  .sally-quote {
+    font-family: 'Playfair Display', serif;
+    font-style: italic;
+    font-size: 1.05rem;
+    color: var(--sally);
+    margin-top: 12px;
+    display: block;
+  }
+  @media(max-width:560px) {
+    .sally-card { flex-direction:column; text-align:center; }
+  }
+
+  /* ── READING JOURNEY ── */
+  .journey-section { padding: 70px 20px; }
+  .journey-track {
+    max-width: 860px;
+    margin: 40px auto 0;
+    position: relative;
+  }
+  .journey-track::before {
+    content:'';
+    position:absolute;
+    left: 50%;
+    top:0; bottom:0;
+    width:4px;
+    background: repeating-linear-gradient(180deg, var(--leaf) 0, var(--leaf) 12px, transparent 12px, transparent 22px);
+    transform: translateX(-50%);
+  }
+  .journey-step {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    margin-bottom: 36px;
+    position: relative;
+  }
+  .journey-step:nth-child(even) { flex-direction: row-reverse; }
+  .step-bubble {
+    background: white;
+    border-radius: 20px;
+    padding: 20px 26px;
+    flex: 1;
+    box-shadow: 0 6px 24px rgba(0,0,0,.08);
+    border-top: 4px solid var(--leaf);
+  }
+  .journey-step:nth-child(2) .step-bubble { border-color: var(--sun); }
+  .journey-step:nth-child(3) .step-bubble { border-color: var(--water); }
+  .journey-step:nth-child(4) .step-bubble { border-color: var(--petal); }
+  .journey-step:nth-child(5) .step-bubble { border-color: var(--petal2); }
+  .journey-step:nth-child(6) .step-bubble { border-color: var(--sprout); }
+  .step-icon {
+    width: 56px; height: 56px;
+    background: var(--leaf);
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.6rem;
+    flex-shrink: 0;
+    z-index: 1;
+    box-shadow: 0 4px 14px rgba(106,191,105,.35);
+  }
+  .journey-step:nth-child(2) .step-icon { background: var(--sun); }
+  .journey-step:nth-child(3) .step-icon { background: var(--water); }
+  .journey-step:nth-child(4) .step-icon { background: var(--petal); }
+  .journey-step:nth-child(5) .step-icon { background: var(--petal2); }
+  .journey-step:nth-child(6) .step-icon { background: var(--sprout); }
+  .step-bubble h4 {
+    font-family: 'Fredoka One', cursive;
+    font-size: 1.15rem;
+    color: var(--soil);
+    margin-bottom: 4px;
+  }
+  .step-bubble p { font-size:.9rem; color:#666; line-height:1.5; }
+
+  @media(max-width:620px) {
+    .journey-track::before { left:28px; }
+    .journey-step, .journey-step:nth-child(even) { flex-direction: row; }
+  }
+
+  /* ── FEATURES ── */
+  .features-section {
+    background: var(--moss);
+    padding: 70px 20px;
+    color: white;
+    text-align: center;
+  }
+  .features-section h2 { font-family:'Fredoka One',cursive; font-size:clamp(1.8rem,4vw,2.8rem); color:var(--sun); }
+  .features-section p { color:#c8e6c9; font-size:1rem; margin-top:8px; }
+  .features-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+    gap: 24px;
+    max-width: 900px;
+    margin: 40px auto 0;
+  }
+  .feature-card {
+    background: rgba(255,255,255,.1);
+    border: 1px solid rgba(255,255,255,.2);
+    border-radius: 20px;
+    padding: 28px 20px;
+    backdrop-filter: blur(4px);
+    transition: background .25s;
+  }
+  .feature-card:hover { background: rgba(255,255,255,.18); }
+  .feature-card .icon { font-size:2.4rem; margin-bottom:12px; }
+  .feature-card h4 { font-family:'Fredoka One',cursive; font-size:1.1rem; color:var(--sun); margin-bottom:6px; }
+  .feature-card p { font-size:.88rem; color:#dcedc8; line-height:1.5; }
+
+  /* ── CTA ── */
+  .cta-section {
+    padding: 80px 20px;
+    text-align: center;
+    background: linear-gradient(180deg, var(--cream) 0%, #e8f5e9 100%);
+  }
+  .cta-section h2 { font-family:'Fredoka One',cursive; font-size:clamp(2rem,5vw,3.2rem); color:var(--soil); }
+  .cta-section p { color:#666; font-size:1.05rem; max-width:500px; margin:12px auto 30px; }
+  .cta-buttons { display:flex; flex-wrap:wrap; gap:14px; justify-content:center; }
+  .btn {
+    font-family:'Fredoka One',cursive;
+    font-size:1.1rem;
+    padding:14px 32px;
+    border-radius:50px;
+    border:none;
+    cursor:pointer;
+    transition:transform .2s, box-shadow .2s;
+  }
+  .btn:hover { transform:translateY(-3px); box-shadow:0 8px 24px rgba(0,0,0,.15); }
+  .btn-primary { background:var(--moss); color:white; }
+  .btn-secondary { background:var(--sun); color:var(--soil); }
+  .btn-outline { background:transparent; color:var(--moss); border:2.5px solid var(--moss); }
+
+  /* ── FOOTER ── */
+  footer {
+    background: var(--soil);
+    color: #c8b9b0;
+    text-align: center;
+    padding: 36px 20px;
+    font-size: .88rem;
+  }
+  footer strong { color: var(--sun); font-family:'Fredoka One',cursive; font-size:1.1rem; }
+</style>
+</head>
+<body>
+
+<!-- HERO -->
+<section class="hero">
+  <span class="leaf">🍃</span>
+  <span class="leaf">🌿</span>
+  <span class="leaf">🍀</span>
+  <span class="leaf">🌾</span>
+  <span class="leaf">🌱</span>
+  <div class="sun"></div>
+
+  <div class="hero-badge">🦎 A Sally the Salamander IP Series</div>
+  <h1>Plant &amp; <span>Play</span></h1>
+  <p class="hero-sub">Grow curious minds, one seed at a time.</p>
+  <p class="hero-desc">
+    Join Sally the Salamander and her plant-world friends on a six-book adventure
+    teaching children ages 5–8 how plants grow, what they need, and why they
+    make our world a better place.
+  </p>
+
+  <div class="sally-hero">
+    <svg width="160" height="160" viewBox="0 0 160 160" fill="none" xmlns="http://www.w3.org/2000/svg">
+      <!-- Body -->
+      <ellipse cx="80" cy="105" rx="38" ry="28" fill="#e76f00"/>
+      <!-- Tail -->
+      <path d="M118 115 Q148 125 152 108 Q148 98 132 105" fill="#e76f00"/>
+      <!-- Head -->
+      <ellipse cx="80" cy="72" rx="30" ry="26" fill="#ff9800"/>
+      <!-- Eyes -->
+      <circle cx="70" cy="65" r="7" fill="white"/>
+      <circle cx="90" cy="65" r="7" fill="white"/>
+      <circle cx="71" cy="65" r="4" fill="#3d2b1f"/>
+      <circle cx="91" cy="65" r="4" fill="#3d2b1f"/>
+      <circle cx="72" cy="63" r="1.5" fill="white"/>
+      <circle cx="92" cy="63" r="1.5" fill="white"/>
+      <!-- Smile -->
+      <path d="M70 80 Q80 88 90 80" stroke="#3d2b1f" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+      <!-- Spots -->
+      <circle cx="62" cy="100" r="6" fill="#c85c00" opacity=".5"/>
+      <circle cx="82" cy="110" r="5" fill="#c85c00" opacity=".4"/>
+      <circle cx="100" cy="100" r="5" fill="#c85c00" opacity=".5"/>
+      <!-- Legs -->
+      <ellipse cx="55" cy="122" rx="10" ry="7" fill="#e76f00"/>
+      <ellipse cx="105" cy="122" rx="10" ry="7" fill="#e76f00"/>
+      <!-- Arms holding plant -->
+      <path d="M50 98 Q38 90 36 78" stroke="#e76f00" stroke-width="10" stroke-linecap="round" fill="none"/>
+      <!-- Potted plant Sally holds -->
+      <rect x="22" y="72" width="24" height="18" rx="4" fill="#8d5524"/>
+      <path d="M34 72 Q34 54 26 46" stroke="#4a7c59" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+      <path d="M34 60 Q42 52 50 54" stroke="#4a7c59" stroke-width="3.5" stroke-linecap="round" fill="none"/>
+      <circle cx="26" cy="44" r="7" fill="#6abf69"/>
+      <circle cx="50" cy="52" r="6" fill="#6abf69"/>
+    </svg>
+  </div>
+
+  <div class="ground-strip">
+    <div class="flower-row">
+      <span class="mini-flower">🌻</span>
+      <span class="mini-flower">🌸</span>
+      <span class="mini-flower">🌼</span>
+      <span class="mini-flower">🌷</span>
+      <span class="mini-flower">🌻</span>
+      <span class="mini-flower">🌸</span>
+      <span class="mini-flower">🌼</span>
+      <span class="mini-flower">🌷</span>
+      <span class="mini-flower">🌻</span>
+      <span class="mini-flower">🌸</span>
+      <span class="mini-flower">🌼</span>
+      <span class="mini-flower">🌷</span>
+      <span class="mini-flower">🌻</span>
+      <span class="mini-flower">🌸</span>
+    </div>
+  </div>
+</section>
+
+<!-- SERIES PILLARS -->
+<section class="series-info">
+  <div class="section-label" style="padding-top:0">
+    <h2>The Series at a Glance</h2>
+    <p>Six books. Six science concepts. One beloved salamander guide.</p>
+    <div class="divider"></div>
+  </div>
+  <div class="series-pillars">
+    <div class="pillar">📚 6 Books</div>
+    <div class="pillar">🎯 Ages 5–8</div>
+    <div class="pillar">🌱 STEM + Nature</div>
+    <div class="pillar">🦎 Sally the Salamander IP</div>
+    <div class="pillar">🎨 Activity in Every Book</div>
+    <div class="pillar">🌍 Earth Stewardship Values</div>
+    <div class="pillar">👩‍👧 Parent + Child Read-Along</div>
+    <div class="pillar">✏️ Journaling Prompts</div>
+  </div>
+</section>
+
+<!-- BOOKS GRID -->
+<section class="books-section">
+  <div class="section-label">
+    <h2>The Books</h2>
+    <p>Each book introduces a new plant-world friend who teaches alongside Sally.</p>
+    <div class="divider"></div>
+  </div>
+
+  <div class="books-grid">
+
+    <!-- Book 1 -->
+    <div class="book-card b1">
+      <div class="book-cover">
+        <span class="cover-num">Book 1</span>
+        <span class="cover-emoji">🌰</span>
+        <span class="cover-friend">🌱</span>
+      </div>
+      <div class="book-body">
+        <div class="book-number">Book One</div>
+        <div class="book-title">Sally Finds a Seed</div>
+        <div class="book-friend">🌰 Meet Sammy the Sunflower Seed</div>
+        <p class="book-desc">Sally discovers a tiny seed on the ground and wonders — what's hiding inside? Sammy the Sunflower Seed takes her on a journey through the anatomy of a seed and the magic of what it holds.</p>
+        <div class="book-learns">
+          <h4>Kids will learn</h4>
+          <ul>
+            <li>What a seed is and what's inside it</li>
+            <li>Different types of seeds (big, small, winged, pods)</li>
+            <li>Why seeds are the start of all plant life</li>
+            <li>How to collect and sort seeds</li>
+          </ul>
+        </div>
+        <span class="activity-tag">✏️ Activity: Seed Sort & Sketch</span>
+      </div>
+    </div>
+
+    <!-- Book 2 -->
+    <div class="book-card b2">
+      <div class="book-cover">
+        <span class="cover-num">Book 2</span>
+        <span class="cover-emoji">🌿</span>
+        <span class="cover-friend">🐛</span>
+      </div>
+      <div class="book-body">
+        <div class="book-number">Book Two</div>
+        <div class="book-title">Wake Up, Little Seed!</div>
+        <div class="book-friend">🌿 Meet Greta the Germinating Bean</div>
+        <p class="book-desc">Sally plants her seed and waits… and waits. Then one morning — a tiny sprout! Greta the Bean explains the incredible process of germination and why different seeds wake up at different speeds.</p>
+        <div class="book-learns">
+          <h4>Kids will learn</h4>
+          <ul>
+            <li>What germination means</li>
+            <li>The stages: seed → root → sprout → seedling</li>
+            <li>Why some seeds germinate faster than others</li>
+            <li>What conditions seeds need to sprout</li>
+          </ul>
+        </div>
+        <span class="activity-tag">✏️ Activity: Germination Jar Experiment</span>
+      </div>
+    </div>
+
+    <!-- Book 3 -->
+    <div class="book-card b3">
+      <div class="book-cover">
+        <span class="cover-num">Book 3</span>
+        <span class="cover-emoji">☀️</span>
+        <span class="cover-friend">🍃</span>
+      </div>
+      <div class="book-body">
+        <div class="book-number">Book Three</div>
+        <div class="book-title">Eating Sunshine</div>
+        <div class="book-friend">🍃 Meet Luma the Leaf</div>
+        <p class="book-desc">Why do plants need sunlight? Luma the Leaf reveals the secret kitchen inside every leaf — where sunlight, water, and air cook up plant food. Sally is amazed that plants make their own meals!</p>
+        <div class="book-learns">
+          <h4>Kids will learn</h4>
+          <ul>
+            <li>How photosynthesis works (simply explained)</li>
+            <li>What chlorophyll is and why leaves are green</li>
+            <li>The role of sunlight, water, and carbon dioxide</li>
+            <li>How plants give us the oxygen we breathe</li>
+          </ul>
+        </div>
+        <span class="activity-tag">✏️ Activity: Leaf Rubbing + Sun Chart</span>
+      </div>
+    </div>
+
+    <!-- Book 4 -->
+    <div class="book-card b4">
+      <div class="book-cover">
+        <span class="cover-num">Book 4</span>
+        <span class="cover-emoji">🌸</span>
+        <span class="cover-friend">🐝</span>
+      </div>
+      <div class="book-body">
+        <div class="book-number">Book Four</div>
+        <div class="book-title">Hello, Beautiful Flower!</div>
+        <div class="book-friend">🌸 Meet Flora the First Flower</div>
+        <p class="book-desc">One day Sally's plant grows a beautiful flower! Flora explains why flowers bloom, how bees help with pollination, and how a flower eventually becomes a new seed — completing the cycle.</p>
+        <div class="book-learns">
+          <h4>Kids will learn</h4>
+          <ul>
+            <li>Parts of a flower (petals, stamen, pistil)</li>
+            <li>How and why flowers bloom</li>
+            <li>What pollination is and bees' role</li>
+            <li>How flowers turn into fruit and new seeds</li>
+          </ul>
+        </div>
+        <span class="activity-tag">✏️ Activity: Flower Dissection & Drawing</span>
+      </div>
+    </div>
+
+    <!-- Book 5 -->
+    <div class="book-card b5">
+      <div class="book-cover">
+        <span class="cover-num">Book 5</span>
+        <span class="cover-emoji">💧</span>
+        <span class="cover-friend">🌱</span>
+      </div>
+      <div class="book-body">
+        <div class="book-number">Book Five</div>
+        <div class="book-title">Dirt, Water & Me</div>
+        <div class="book-friend">💧 Meet Drip the Water Drop & Sandy the Soil</div>
+        <p class="book-desc">Sally learns that a healthy plant needs more than sunlight. Drip and Sandy show her what's in soil and how water travels from roots to leaves — and why caring for plants means caring for the earth beneath our feet.</p>
+        <div class="book-learns">
+          <h4>Kids will learn</h4>
+          <ul>
+            <li>What soil is made of (minerals, nutrients, organisms)</li>
+            <li>How roots drink water and send it up the plant</li>
+            <li>How much water different plants need</li>
+            <li>Composting basics and healthy soil</li>
+          </ul>
+        </div>
+        <span class="activity-tag">✏️ Activity: Build a Mini Compost Bin</span>
+      </div>
+    </div>
+
+    <!-- Book 6 -->
+    <div class="book-card b6">
+      <div class="book-cover">
+        <span class="cover-num">Book 6</span>
+        <span class="cover-emoji">🌍</span>
+        <span class="cover-friend">🌳</span>
+      </div>
+      <div class="book-body">
+        <div class="book-number">Book Six</div>
+        <div class="book-title">Plants &amp; Me &amp; the Earth</div>
+        <div class="book-friend">🌳 Meet Terra the Tree</div>
+        <p class="book-desc">In the final book, Sally steps back and sees the big picture. Terra the Tree explains how every plant — from tiny grass to giant trees — helps clean air, feed animals, prevent flooding, and keep our planet healthy.</p>
+        <div class="book-learns">
+          <h4>Kids will learn</h4>
+          <ul>
+            <li>How plants clean the air we breathe</li>
+            <li>How plants feed animals and humans</li>
+            <li>How roots prevent soil erosion</li>
+            <li>Simple ways kids can help plants thrive</li>
+          </ul>
+        </div>
+        <span class="activity-tag">✏️ Activity: Plant Your Own Garden Corner</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- SALLY SECTION -->
+<section class="sally-section">
+  <div class="section-label" style="padding-top:0">
+    <h2>Your Guide: Sally the Salamander</h2>
+    <p>The beloved character at the heart of it all.</p>
+    <div class="divider"></div>
+  </div>
+  <div class="sally-card">
+    <div class="sally-avatar">🦎</div>
+    <div class="sally-text">
+      <h3>Meet Sally</h3>
+      <p>
+        Sally is curious, kind, and loves to explore. In every <em>Plant &amp; Play</em> book, she opens the story with a question she doesn't know the answer to — and invites readers to discover it alongside her and her new plant-world friend.
+      </p>
+      <span class="sally-quote">"I don't know yet… but let's find out together!"</span>
+    </div>
+  </div>
+</section>
+
+<!-- READING JOURNEY -->
+<section class="journey-section">
+  <div class="section-label">
+    <h2>The Learning Journey</h2>
+    <p>Read the series in order and watch a full plant life cycle unfold.</p>
+    <div class="divider"></div>
+  </div>
+  <div class="journey-track">
+    <div class="journey-step">
+      <div class="step-icon">🌰</div>
+      <div class="step-bubble">
+        <h4>Book 1 — The Seed</h4>
+        <p>Discover what's inside a seed and why there are so many different kinds.</p>
+      </div>
+    </div>
+    <div class="journey-step">
+      <div class="step-icon">🌿</div>
+      <div class="step-bubble">
+        <h4>Book 2 — Germination</h4>
+        <p>Watch the seed wake up, crack open, and send its first root into the soil.</p>
+      </div>
+    </div>
+    <div class="journey-step">
+      <div class="step-icon">☀️</div>
+      <div class="step-bubble">
+        <h4>Book 3 — Photosynthesis</h4>
+        <p>Learn how leaves use sunlight to cook food and give us fresh air.</p>
+      </div>
+    </div>
+    <div class="journey-step">
+      <div class="step-icon">🌸</div>
+      <div class="step-bubble">
+        <h4>Book 4 — Flowering</h4>
+        <p>Celebrate the bloom and learn how flowers carry life forward.</p>
+      </div>
+    </div>
+    <div class="journey-step">
+      <div class="step-icon">💧</div>
+      <div class="step-bubble">
+        <h4>Book 5 — Soil &amp; Water</h4>
+        <p>Dig into the ground and understand what feeds and waters every plant.</p>
+      </div>
+    </div>
+    <div class="journey-step">
+      <div class="step-icon">🌍</div>
+      <div class="step-bubble">
+        <h4>Book 6 — Helping the Earth</h4>
+        <p>Zoom out and see how plants, people, and the planet are all connected.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- FEATURES -->
+<section class="features-section">
+  <h2>What Makes Plant &amp; Play Special</h2>
+  <p>Every book in the series is designed to grow little minds and big hearts.</p>
+  <div class="features-grid">
+    <div class="feature-card">
+      <div class="icon">🔬</div>
+      <h4>Real Science, Simple Words</h4>
+      <p>Concepts like photosynthesis and germination explained for 5–8 year olds without dumbing them down.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">✏️</div>
+      <h4>Hands-On Activity</h4>
+      <p>Every book ends with a real-world activity kids can do at home or in a classroom.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🦎</div>
+      <h4>A Familiar Face</h4>
+      <p>Sally the Salamander leads every book, giving children a trusted guide through each new topic.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">🌍</div>
+      <h4>Earth Stewardship</h4>
+      <p>Kids learn how their actions — planting, watering, composting — make a real difference to our planet.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">👨‍👩‍👧</div>
+      <h4>Parent + Child Prompts</h4>
+      <p>Discussion questions woven in make each book a conversation starter, not just a solo read.</p>
+    </div>
+    <div class="feature-card">
+      <div class="icon">📖</div>
+      <h4>Series Arc</h4>
+      <p>Read in order to follow a complete plant life cycle from seed to earth steward over 6 books.</p>
+    </div>
+  </div>
+</section>
+
+<!-- CTA -->
+<section class="cta-section">
+  <h2>Ready to Grow? 🌱</h2>
+  <p>The Plant &amp; Play series is part of the Sally the Salamander universe — where every adventure is a lesson and every page is a seed.</p>
+  <div class="cta-buttons">
+    <button class="btn btn-primary">📚 View Full Series</button>
+    <button class="btn btn-secondary">🌱 Start with Book 1</button>
+    <button class="btn btn-outline">🦎 Sally the Salamander World</button>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p><strong>Plant &amp; Play</strong> — A Sally the Salamander Series</p>
+  <p style="margin-top:8px;">© Sally-Ann Lamour Mighty · All Rights Reserved</p>
+</footer>
+
+</body>
+</html>
